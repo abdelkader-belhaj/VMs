@@ -33,7 +33,7 @@ def check_vm_readiness(vm_name, vm_config):
     }
     
     # Check if VM has required configuration
-    required_fields = ['status', 'cpu', 'memory', 'disk']
+    required_fields = ['cpu', 'memory', 'disk']
     for field in required_fields:
         if field not in vm_config:
             status['checks'].append({
@@ -71,6 +71,14 @@ def check_vm_readiness(vm_name, vm_config):
                 'status': 'WARNING',
                 'message': f'VM status is {vm_status}'
             })
+            status['ready'] = False
+    else:
+        status['checks'].append({
+            'check': 'VM Status',
+            'status': 'MISSING',
+            'message': 'VM status not configured'
+        })
+        status['ready'] = False
     
     return status
 
@@ -103,8 +111,9 @@ def print_vm_status(status):
 
 def main():
     """Main function to check VM readiness"""
-    # Load configuration
-    config = load_vm_config()
+    # Load configuration (support command line argument for config file)
+    config_file = sys.argv[1] if len(sys.argv) > 1 else 'vm_config.json'
+    config = load_vm_config(config_file)
     
     # Check if VMs are defined
     if 'vms' not in config or not config['vms']:
