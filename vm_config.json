@@ -1,0 +1,20 @@
+{
+  "vms": {
+    "vm-01": {
+      "status": "running",
+      "cpu": "4 cores",
+      "memory": "8GB",
+      "disk": "100GB",
+      "ip": "192.168.1.100",
+      "os": "Ubuntu 22.04"
+    },
+    "vm-02": {
+      "status": "running",
+      "cpu": "2 cores",
+      "memory": "4GB",
+      "disk": "50GB",
+      "ip": "192.168.1.101",
+      "os": "CentOS 8"
+    }
+  }
+}
