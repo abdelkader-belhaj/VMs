@@ -56,7 +56,7 @@ def check_vm_readiness(vm_name, vm_config):
             status['checks'].append({
                 'check': 'Statut VM',
                 'status': 'OK',
-                'message': 'La VM est en cours d\'exécution'
+                'message': "La VM est en cours d'exécution"
             })
         elif vm_status == 'stopped':
             status['checks'].append({
