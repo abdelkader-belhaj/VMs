@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-VM Readiness Checker
-Check if virtual machines are ready and operational
+Vérificateur d'état de préparation des VMs
+Vérifie si les machines virtuelles sont prêtes et opérationnelles
 """
 
 import json
@@ -10,21 +10,21 @@ from datetime import datetime
 
 
 def load_vm_config(config_file='vm_config.json'):
-    """Load VM configuration from JSON file"""
+    """Charger la configuration des VMs depuis un fichier JSON"""
     try:
         with open(config_file, 'r') as f:
             return json.load(f)
     except FileNotFoundError:
-        print(f"Error: Configuration file '{config_file}' not found.")
-        print("Please create a vm_config.json file with your VM details.")
+        print(f"Erreur: Fichier de configuration '{config_file}' introuvable.")
+        print("Veuillez créer un fichier vm_config.json avec les détails de vos VMs.")
         sys.exit(1)
     except json.JSONDecodeError:
-        print(f"Error: Invalid JSON in '{config_file}'")
+        print(f"Erreur: JSON invalide dans '{config_file}'")
         sys.exit(1)
 
 
 def check_vm_readiness(vm_name, vm_config):
-    """Check if a VM is ready based on configuration"""
+    """Vérifier si une VM est prête selon sa configuration"""
     status = {
         'name': vm_name,
         'ready': True,
@@ -38,8 +38,8 @@ def check_vm_readiness(vm_name, vm_config):
         if field not in vm_config:
             status['checks'].append({
                 'check': field,
-                'status': 'MISSING',
-                'message': f'{field} configuration not found'
+                'status': 'MANQUANT',
+                'message': f'Configuration {field} introuvable'
             })
             status['ready'] = False
         else:
@@ -54,29 +54,29 @@ def check_vm_readiness(vm_name, vm_config):
         vm_status = vm_config['status'].lower()
         if vm_status == 'running':
             status['checks'].append({
-                'check': 'VM Status',
+                'check': 'Statut VM',
                 'status': 'OK',
-                'message': 'VM is running'
+                'message': 'La VM est en cours d\'exécution'
             })
         elif vm_status == 'stopped':
             status['checks'].append({
-                'check': 'VM Status',
-                'status': 'ERROR',
-                'message': 'VM is stopped'
+                'check': 'Statut VM',
+                'status': 'ERREUR',
+                'message': 'La VM est arrêtée'
             })
             status['ready'] = False
         else:
             status['checks'].append({
-                'check': 'VM Status',
-                'status': 'WARNING',
-                'message': f'VM status is {vm_status}'
+                'check': 'Statut VM',
+                'status': 'ATTENTION',
+                'message': f'Le statut de la VM est {vm_status}'
             })
             status['ready'] = False
     else:
         status['checks'].append({
-            'check': 'VM Status',
-            'status': 'MISSING',
-            'message': 'VM status not configured'
+            'check': 'Statut VM',
+            'status': 'MANQUANT',
+            'message': 'Statut VM non configuré'
         })
         status['ready'] = False
     
@@ -84,18 +84,18 @@ def check_vm_readiness(vm_name, vm_config):
 
 
 def print_vm_status(status):
-    """Print VM status in a readable format"""
+    """Afficher le statut de la VM dans un format lisible"""
     print(f"\n{'='*60}")
-    print(f"VM Readiness Report: {status['name']}")
-    print(f"Timestamp: {status['timestamp']}")
+    print(f"Rapport d'état de préparation VM: {status['name']}")
+    print(f"Horodatage: {status['timestamp']}")
     print(f"{'='*60}")
     
     if status['ready']:
-        print("✓ VM is READY")
+        print("✓ La VM est PRÊTE")
     else:
-        print("✗ VM is NOT READY")
+        print("✗ La VM n'est PAS PRÊTE")
     
-    print(f"\nChecks:")
+    print(f"\nVérifications:")
     for check in status['checks']:
         check_status = check['status']
         symbol = '✓' if check_status == 'OK' else '✗'
@@ -110,14 +110,14 @@ def print_vm_status(status):
 
 
 def main():
-    """Main function to check VM readiness"""
+    """Fonction principale pour vérifier l'état de préparation des VMs"""
     # Load configuration (support command line argument for config file)
     config_file = sys.argv[1] if len(sys.argv) > 1 else 'vm_config.json'
     config = load_vm_config(config_file)
     
     # Check if VMs are defined
     if 'vms' not in config or not config['vms']:
-        print("Error: No VMs defined in configuration")
+        print("Erreur: Aucune VM définie dans la configuration")
         sys.exit(1)
     
     # Check each VM
@@ -130,10 +130,10 @@ def main():
     
     # Exit with appropriate code
     if all_ready:
-        print("All VMs are ready! ✓")
+        print("Toutes les VMs sont prêtes! ✓")
         sys.exit(0)
     else:
-        print("Some VMs are not ready. Please check the status above.")
+        print("Certaines VMs ne sont pas prêtes. Veuillez vérifier le statut ci-dessus.")
         sys.exit(1)
 
 

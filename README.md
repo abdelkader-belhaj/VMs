@@ -1,20 +1,20 @@
-# VMs - Virtual Machine Readiness Checker
+# VMs - Vérificateur d'état de préparation des machines virtuelles
 
-A simple tool to check if your virtual machines are ready and operational.
+Un outil simple pour vérifier si vos machines virtuelles sont prêtes et opérationnelles.
 
 ## Description
 
-This repository provides a VM readiness checker that validates if your virtual machines are properly configured and running. It checks various aspects of VM configuration including status, CPU, memory, and disk allocation.
+Ce dépôt fournit un vérificateur d'état de préparation des VMs qui valide si vos machines virtuelles sont correctement configurées et en cours d'exécution. Il vérifie divers aspects de la configuration des VMs, notamment le statut, le CPU, la mémoire et l'allocation du disque.
 
-## Quick Start
+## Démarrage rapide
 
-### Prerequisites
+### Prérequis
 
-- Python 3.6 or higher
+- Python 3.6 ou supérieur
 
-### Usage
+### Utilisation
 
-1. Configure your VMs in `vm_config.json`:
+1. Configurez vos VMs dans `vm_config.json`:
 
 ```json
 {
@@ -31,48 +31,48 @@ This repository provides a VM readiness checker that validates if your virtual m
 }
 ```
 
-2. Run the readiness check:
+2. Exécutez la vérification d'état:
 
 ```bash
 python3 check_vm_status.py
 ```
 
-### Configuration Fields
+### Champs de configuration
 
-- **status**: VM status (running, stopped, etc.)
-- **cpu**: CPU allocation (e.g., "4 cores")
-- **memory**: Memory allocation (e.g., "8GB")
-- **disk**: Disk allocation (e.g., "100GB")
-- **ip**: (Optional) VM IP address
-- **os**: (Optional) Operating system
+- **status**: Statut de la VM (running, stopped, etc.)
+- **cpu**: Allocation CPU (ex: "4 cores")
+- **memory**: Allocation mémoire (ex: "8GB")
+- **disk**: Allocation disque (ex: "100GB")
+- **ip**: (Optionnel) Adresse IP de la VM
+- **os**: (Optionnel) Système d'exploitation
 
-## Output
+## Sortie
 
-The script will check each VM and report:
-- ✓ VM is READY - All checks passed
-- ✗ VM is NOT READY - Some checks failed
+Le script vérifie chaque VM et rapporte:
+- ✓ La VM est PRÊTE - Toutes les vérifications sont réussies
+- ✗ La VM n'est PAS PRÊTE - Certaines vérifications ont échoué
 
-Example output:
+Exemple de sortie:
 ```
 ============================================================
-VM Readiness Report: vm-01
-Timestamp: 2025-11-01T12:00:00.000000
+Rapport d'état de préparation VM: vm-01
+Horodatage: 2025-11-01T12:00:00.000000
 ============================================================
-✓ VM is READY
+✓ La VM est PRÊTE
 
-Checks:
+Vérifications:
   ✓ cpu: OK (4 cores)
   ✓ memory: OK (8GB)
   ✓ disk: OK (100GB)
-  ✓ VM Status: OK - VM is running
+  ✓ Statut VM: OK - La VM est en cours d'exécution
 ============================================================
 ```
 
-## Exit Codes
+## Codes de sortie
 
-- `0`: All VMs are ready
-- `1`: One or more VMs are not ready or error occurred
+- `0`: Toutes les VMs sont prêtes
+- `1`: Une ou plusieurs VMs ne sont pas prêtes ou une erreur s'est produite
 
-## License
+## Licence
 
 MIT
